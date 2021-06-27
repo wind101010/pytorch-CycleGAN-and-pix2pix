@@ -1,6 +1,8 @@
 
 import numpy as np
 from PIL import Image
+import pandas as pd
+
 import os
 
 #
@@ -12,7 +14,7 @@ def join_dataframe_list(dataframe_list_a,dataframe_list_b):
         ope_df_a = dataframe_list_a[i]
         ope_df_b = dataframe_list_b[i]
         print(ope_df_a,ope_df_b)
-        resultdf = ope_df_a.join(ope_df_b,how='inner')
+        resultdf = pd.concat([ope_df_a,ope_df_b],join='outer',axis=1)
 
         result_df_list.append(resultdf)
     return result_df_list

@@ -91,8 +91,8 @@ class G2GDataSetTransformer(object):
         i = 1
         for result_df in result_df_list:
             file_name = os.path.join(write_file_path,f"{i}.txt")
+            result_df.to_csv(file_name,sep="\t",index=False,header=None)
 
-            result_df.to_csv(file_name,sep="\t",index=False)
             i = i + 1
 
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
                                                                  G2G_file_name_b,
                                                                  result_txtaligned_data_set,
                                                                  normalize_method,
-                                                                 True)
+                                                                 False)
     # self.dir_AB = os.path.join(opt.dataroot, opt.phase)  # get the image directory
     #
     #     self.AB_paths = sorted(make_dataset(self.dir_AB, opt.max_dataset_size))  # get image paths
