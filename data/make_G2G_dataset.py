@@ -1,5 +1,5 @@
 
-from options.G2G_dataset_option import G2GDatasetOptions
+# from options.G2G_dataset_option import G2GDatasetOptions
 import numpy as np
 import pandas as pd
 from pandas import DataFrame as df
@@ -59,12 +59,18 @@ class G2GDataSetTransformer(object):
         return resultdf_list
 
 
-    def normalize_dataframe(self,origindf,normallize_method):
-        if(normallize_method == "tan0"):
-            resultdf = origindf
 
-        elif(normallize_method=="tan0"):
+    def normalize_dataframe(self,origindf,normallize_method):
+        if(normallize_method == "atan"):
+            resultdf = origindf.applymap(lambda x: math.atan(x)*2/math.pi)
+
+
+        elif(normallize_method=="origin"):
             resultdf = origindf
+        elif(normallize_method=="tanh"):
+
+            resultdf = origindf.applymap(lambda x: math.tanh(x))
+
         else:
             resultdf = origindf
 
@@ -129,8 +135,25 @@ class G2GDataSetTransformer(object):
 
 
     #将原始的数据文件转换为Train需要的数据文件
-    def txtaligned_dataset_format_to_G2G_format(self,file_path_a,file_path_b,file_path_ab):
-        pass
+    def txtaligned_dataset_format_to_G2G_format(self,file_path_a,file_path_b,file_path_ab,result_G2G_filename_a,result_G2G_filename_b,normalize_method):
+        if (file_path_ab):
+            pass
+        else:
+            resultdf = None
+            resultdict = dict()
+            for filename in os.listdir(file_path_a):
+                file_path = file_path_a + "/" + filename
+                key = "simple" + filename.split(".")[0]
+                origindf = pd.read_csv(file_path,sep="\t",header=None)
+                listinfo = origindf.values.tolist()
+                print(listinfo)
+                resultdict[key] = listinfo
+            resultdf = df(resultdict)
+
+            for filename in os.listdir(file_path_b):
+                pass
+
+        #
 
 if __name__ == '__main__':
     testFilePath = "../../test_data/"
@@ -140,17 +163,34 @@ if __name__ == '__main__':
 
     result_txtaligned_data_set = resultFilePath + "pix2pix_input_ready_to_use_1024gene/train"
 
-    txtaligned_data_set = testFilePath+"pix2pix_input_ready_to_use_1024gene/train"
+    txtaligned_data_set = testFilePath+ "pix2pix_input_ready_to_use_1024gene/train"
+    txtaligned_data_set_a = testFilePath + "cycleGAN_input_ready_to_use_1024gene/1024h0tanh/trainA"
+    txtaligned_data_set_b = testFilePath + "cycleGAN_input_ready_to_use_1024gene/1024h0tanh/trainB"
 
-    result_G2G_file_path = resultFilePath+"pix2pix_input_ready_to_use_1024gene/train"
-    normalize_method = None
+
+    result_G2G_file_path = resultFilePath + "pix2pix_input_ready_to_use_1024gene/train"
+
+    result_G2G_file_name_a = resultFilePath + "pix2pix_user_data_format/paired_cpm_FF_count_mask.txt"
+    result_G2G_file_name_b = resultFilePath + "pix2pix_user_data_format/paired_cpm_FFPE_count_mask.txt"
+    normalize_method = "tanh"
     #归一化 ->文件互相转换表
     transformer = G2GDataSetTransformer()
-    transformer.G2G_format_to_txtaligned_dataset_format(G2G_file_name_a,
-                                                                 G2G_file_name_b,
-                                                                 result_txtaligned_data_set,
+    #G2G数据转换成预训练数据
+    # transformer.G2G_format_to_txtaligned_dataset_format(G2G_file_name_a,
+    #                                                              G2G_file_name_b,
+    #                                                              result_txtaligned_data_set,
+    #                                                              normalize_method,
+    #                                                              False)
+
+    transformer.txtaligned_dataset_format_to_G2G_format(txtaligned_data_set_a,
+                                                                 txtaligned_data_set_b,
+                                                                None,
+                                                                 result_G2G_file_name_a,
+                                                                result_G2G_file_name_b,
                                                                  normalize_method,
-                                                                 False)
+                                                                 )
+
+
     # self.dir_AB = os.path.join(opt.dataroot, opt.phase)  # get the image directory
     #
     #     self.AB_paths = sorted(make_dataset(self.dir_AB, opt.max_dataset_size))  # get image paths
