@@ -176,19 +176,19 @@ if __name__ == '__main__':
     #归一化 ->文件互相转换表
     transformer = G2GDataSetTransformer()
     #G2G数据转换成预训练数据
-    # transformer.G2G_format_to_txtaligned_dataset_format(G2G_file_name_a,
-    #                                                              G2G_file_name_b,
-    #                                                              result_txtaligned_data_set,
-    #                                                              normalize_method,
-    #                                                              False)
-
-    transformer.txtaligned_dataset_format_to_G2G_format(txtaligned_data_set_a,
-                                                                 txtaligned_data_set_b,
-                                                                None,
-                                                                 result_G2G_file_name_a,
-                                                                result_G2G_file_name_b,
+    transformer.G2G_format_to_txtaligned_dataset_format(G2G_file_name_a,
+                                                                 G2G_file_name_b,
+                                                                 result_txtaligned_data_set,
                                                                  normalize_method,
-                                                                 )
+                                                                 False)
+
+    # transformer.txtaligned_dataset_format_to_G2G_format(txtaligned_data_set_a,
+    #                                                              txtaligned_data_set_b,
+    #                                                             None,
+    #                                                              result_G2G_file_name_a,
+    #                                                             result_G2G_file_name_b,
+    #                                                              normalize_method,
+    #                                                              )
 
 
     # self.dir_AB = os.path.join(opt.dataroot, opt.phase)  # get the image directory
