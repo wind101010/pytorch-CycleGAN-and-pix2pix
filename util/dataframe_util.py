@@ -8,7 +8,7 @@ import os
 #
 
 def join_dataframe_list(dataframe_list_a,dataframe_list_b):
-    count =  len(dataframe_list_a) if len(dataframe_list_a)>len(dataframe_list_b) else len(dataframe_list_b)
+    count = len(dataframe_list_a) if len(dataframe_list_a)>len(dataframe_list_b) else len(dataframe_list_b)
     result_df_list = list()
     for i in range(0,count):
         ope_df_a = dataframe_list_a[i]

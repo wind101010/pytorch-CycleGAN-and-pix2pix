@@ -60,14 +60,14 @@ class G2GDataSetTransformer(object):
 
 
 
-    def normalize_dataframe(self,origindf,normallize_method):
-        if(normallize_method == "atan"):
+    def normalize_dataframe(self,origindf,normalize_method):
+        if(normalize_method == "atan"):
             resultdf = origindf.applymap(lambda x: math.atan(x)*2/math.pi)
 
 
-        elif(normallize_method=="origin"):
+        elif(normalize_method=="origin"):
             resultdf = origindf
-        elif(normallize_method=="tanh"):
+        elif(normalize_method=="tanh"):
 
             resultdf = origindf.applymap(lambda x: math.tanh(x))
 
